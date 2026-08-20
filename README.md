@@ -5,6 +5,26 @@ A modern, full-stack **MERN (MongoDB, Express, React, Node.js)** authentication 
 ![Stack](https://img.shields.io/badge/Stack-MongoDB%20%7C%20Express%20%7C%20React%20%7C%20Node.js-brightgreen)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
+# MERN Login & Signup Authentication
+
+A full-stack authentication project built using the MERN stack.
+
+## UI Preview
+
+### Login Page
+
+![Login Page](screenshots/login.png)
+
+<img width="1919" height="953" alt="login page" src="https://github.com/user-attachments/assets/60f70794-fab4-4c8e-a5ab-bc4d1b98a933" />
+
+### Signup Page
+
+![Signup Page](screenshots/signup.png)
+<img width="1916" height="943" alt="signup page" src="https://github.com/user-attachments/assets/bac00112-c5af-48c2-a0e0-a5a66c3785ea" />
+
+### Home Page
+
+![Home Page](screenshots/home.png)
 ---
 
 ## ✨ Key Features
