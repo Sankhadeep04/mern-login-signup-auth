@@ -9,16 +9,27 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Connect to MongoDB Database
-connectDB();
-
 // Core Middlewares
 app.use(cors({
-  origin: '*', // Allow frontend dev server requests
+  origin: '*', // Allow frontend dev server and Vercel requests
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
+
+// Middleware to ensure Database Connection on every request
+app.use(async (req, res, next) => {
+  try {
+    await connectDB();
+    next();
+  } catch (error) {
+    console.error('[Database Middleware Error]:', error.message);
+    res.status(500).json({
+      success: false,
+      message: 'Database connection failed. Please check your MONGO_URI in Vercel Environment Variables.'
+    });
+  }
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
@@ -37,7 +48,7 @@ app.use((req, res) => {
   res.status(404).json({ message: `Route ${req.originalUrl} not found` });
 });
 
-// Start Express Server
+// Start Express Server locally
 if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
   app.listen(PORT, () => {
     console.log(`====================================================`);
@@ -48,4 +59,3 @@ if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
 }
 
 export default app;
-

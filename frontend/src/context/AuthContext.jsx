@@ -15,6 +15,14 @@ export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(localStorage.getItem('auth_token') || null);
   const [loading, setLoading] = useState(true);
 
+  const safeParseJson = async (response) => {
+    try {
+      return await response.json();
+    } catch {
+      return { message: `Server error (${response.status}). Please check MONGO_URI in Vercel Environment Variables.` };
+    }
+  };
+
   // Check auth state on initial mount
   useEffect(() => {
     const verifyUser = async () => {
@@ -32,7 +40,7 @@ export const AuthProvider = ({ children }) => {
           }
         });
 
-        const data = await response.json();
+        const data = await safeParseJson(response);
 
         if (response.ok && data.success) {
           setUser(data.user);
@@ -62,7 +70,7 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ email, password })
     });
 
-    const data = await response.json();
+    const data = await safeParseJson(response);
 
     if (!response.ok) {
       throw new Error(data.message || 'Registration failed');
@@ -85,7 +93,7 @@ export const AuthProvider = ({ children }) => {
       body: JSON.stringify({ email, password })
     });
 
-    const data = await response.json();
+    const data = await safeParseJson(response);
 
     if (!response.ok) {
       throw new Error(data.message || 'Authentication failed');
