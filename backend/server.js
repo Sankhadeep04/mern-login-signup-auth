@@ -38,9 +38,14 @@ app.use((req, res) => {
 });
 
 // Start Express Server
-app.listen(PORT, () => {
-  console.log(`====================================================`);
-  console.log(`  🚀 Backend API Server running on port ${PORT}`);
-  console.log(`  🔗 Endpoint: http://localhost:${PORT}/api/auth`);
-  console.log(`====================================================`);
-});
+if (process.env.NODE_ENV !== 'production' || !process.env.VERCEL) {
+  app.listen(PORT, () => {
+    console.log(`====================================================`);
+    console.log(`  🚀 Backend API Server running on port ${PORT}`);
+    console.log(`  🔗 Endpoint: http://localhost:${PORT}/api/auth`);
+    console.log(`====================================================`);
+  });
+}
+
+export default app;
+
